@@ -35,10 +35,10 @@ add_action('do_feed_rss2_comments', 'headache_disable_feeds', 1);
 add_action('do_feed_atom_comments', 'headache_disable_feeds', 1);
 
 // Disable comments.
-add_filter('comments_open', '__return_false');
+// add_filter('comments_open', '__return_false');
 
 // Remove language dropdown on login screen.
-add_filter('login_display_language_dropdown', '__return_false');
+// add_filter('login_display_language_dropdown', '__return_false');
 
 // Disable XML RPC for security.
 add_filter('xmlrpc_enabled', '__return_false');
@@ -95,30 +95,30 @@ remove_action('wp_head', 'wp_oembed_add_host_js');
 
 // Disable default users API endpoints for security.
 // https://www.wp-tweaks.com/hackers-can-find-your-wordpress-username/
-function headache_disable_rest_endpoints(array $endpoints): array
-{
-    if (!is_user_logged_in()) {
-        if (isset($endpoints['/wp/v2/users'])) {
-            unset($endpoints['/wp/v2/users']);
-        }
+// function headache_disable_rest_endpoints(array $endpoints): array
+// {
+//     if (!is_user_logged_in()) {
+//         if (isset($endpoints['/wp/v2/users'])) {
+//             unset($endpoints['/wp/v2/users']);
+//         }
 
-        if (isset($endpoints['/wp/v2/users/(?P<id>[\d]+)'])) {
-            unset($endpoints['/wp/v2/users/(?P<id>[\d]+)']);
-        }
-    }
+//         if (isset($endpoints['/wp/v2/users/(?P<id>[\d]+)'])) {
+//             unset($endpoints['/wp/v2/users/(?P<id>[\d]+)']);
+//         }
+//     }
 
-    return $endpoints;
-}
+//     return $endpoints;
+// }
 
-add_filter('rest_endpoints', 'headache_disable_rest_endpoints');
+// add_filter('rest_endpoints', 'headache_disable_rest_endpoints');
 
-// Removes JPEG compression.
-function headache_remove_jpeg_compression(): int
-{
-    return 100;
-}
+// // Removes JPEG compression.
+// function headache_remove_jpeg_compression(): int
+// {
+//     return 100;
+// }
 
-add_filter('jpeg_quality', 'headache_remove_jpeg_compression', 10, 2);
+// add_filter('jpeg_quality', 'headache_remove_jpeg_compression', 10, 2);
 
 // Update login page image link URL.
 function headache_login_url(): string
@@ -164,54 +164,54 @@ function headache_remove_svg_filters(): void
 add_action('init', 'headache_remove_svg_filters');
 
 // Removes ?ver= query from styles and scripts.
-function headache_remove_script_version(string $src): string
-{
-    return $src ? esc_url(remove_query_arg('ver', $src)) : $src;
-}
+// function headache_remove_script_version(string $src): string
+// {
+//     return $src ? esc_url(remove_query_arg('ver', $src)) : $src;
+// }
 
-add_filter('script_loader_src', 'headache_remove_script_version', 15, 1);
-add_filter('style_loader_src', 'headache_remove_script_version', 15, 1);
+// add_filter('script_loader_src', 'headache_remove_script_version', 15, 1);
+// add_filter('style_loader_src', 'headache_remove_script_version', 15, 1);
 
 // Remove contributor, subscriber and author roles.
-function headache_remove_roles(): void
-{
-    remove_role('author');
-    remove_role('contributor');
-    remove_role('subscriber');
-}
+// function headache_remove_roles(): void
+// {
+//     remove_role('author');
+//     remove_role('contributor');
+//     remove_role('subscriber');
+// }
 
-add_action('init', 'headache_remove_roles');
+// add_action('init', 'headache_remove_roles');
 
 // Disabled attachment template loading and redirect to 404.
-function headache_attachment_redirect_not_found(): void
-{
-    if (is_attachment()) {
-        global $wp_query;
-        $wp_query->set_404();
-        status_header(404);
-    }
-}
+// function headache_attachment_redirect_not_found(): void
+// {
+//     if (is_attachment()) {
+//         global $wp_query;
+//         $wp_query->set_404();
+//         status_header(404);
+//     }
+// }
 
-add_filter('template_redirect', 'headache_attachment_redirect_not_found');
+// add_filter('template_redirect', 'headache_attachment_redirect_not_found');
 
 // Disabled attachment canonical redirect links.
-function headache_disable_attachment_canonical_redirect_url(string $url): string
-{
-    headache_attachment_redirect_not_found();
+// function headache_disable_attachment_canonical_redirect_url(string $url): string
+// {
+//     headache_attachment_redirect_not_found();
 
-    return $url;
-}
+//     return $url;
+// }
 
-add_filter('redirect_canonical', 'headache_disable_attachment_canonical_redirect_url', 0, 2);
+// add_filter('redirect_canonical', 'headache_disable_attachment_canonical_redirect_url', 0, 2);
 
-// Disabled attachment links.
-function headache_disable_attachment_link(string $url, int $id): string
-{
-    if ($attachment_url = wp_get_attachment_url($id)) {
-        return $attachment_url;
-    }
+// // Disabled attachment links.
+// function headache_disable_attachment_link(string $url, int $id): string
+// {
+//     if ($attachment_url = wp_get_attachment_url($id)) {
+//         return $attachment_url;
+//     }
 
-    return $url;
-}
+//     return $url;
+// }
 
-add_filter('attachment_link', 'headache_disable_attachment_link', 10, 2);
+// add_filter('attachment_link', 'headache_disable_attachment_link', 10, 2);
